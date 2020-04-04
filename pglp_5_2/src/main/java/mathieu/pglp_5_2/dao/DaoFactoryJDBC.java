@@ -9,7 +9,7 @@ import mathieu.pglp_5_2.personnel.Personnel;
 /**
  * pattern factory.
  */
-public abstract class DaoFactoryJDBC {
+public class DaoFactoryJDBC {
     /**
      * Connection à la bdd
      */
