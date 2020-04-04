@@ -1,38 +1,43 @@
 package mathieu.pglp_5_2.dao;
 
-import java.util.ArrayList;
+import java.sql.Connection;
 import java.util.Map;
 
 /**
  * Pattern DAO.
  * @param <T> type pour le DAO
  */
-public interface Dao<T> {
+public abstract class Dao<T> {
+    /**
+     * variable de connection à la base de données.
+     */
+    protected Connection connect;
+    /**
+     * constructeur de la classe.
+     */
+    public Dao(Connection connection) {
+        connect = connection;
+    }
     /**
      * ajoute un élément au DAO.
      * @param object l'élément à ajouter
      */
-    void add(T object);
+    public abstract T create(T object);
     /**
      * obtenir un élément par son identifiant.
      * @param id identifiant de l'élément à obtenir
      * @return l'élément souhaité
      */
-    T get(int id);
-    /**
-     * obtenir la liste des éléments du DAO.
-     * @return la liste des éléments du DAO
-     */
-    ArrayList<T> getAll();
+    public abstract T find(int id);
     /**
      * modifie un élément du DAO.
      * @param object l'élément à modifier
      * @param params les paramètres à modifier
      */
-    void update(T object, Map<String, Object> params);
+    public abstract T update(T object);
     /**
      * supprime un élément du DAO.
      * @param object élément à supprimer
      */
-    void remove(T object);
+    public abstract void delete(T object);
 }

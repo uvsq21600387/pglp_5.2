@@ -26,7 +26,14 @@ Serializable {
     /**
      * identifiant pour identifier un composite.
      */
-    private final int id;
+    private int id;
+    /**
+     * modifier l'identifiant.
+     * @param newId nouvel identifiant
+     */
+    public void setId(int newId) {
+        id = newId;
+    }
     /**
      * pour attribuer un identifiant différent à chaque construction.
      */

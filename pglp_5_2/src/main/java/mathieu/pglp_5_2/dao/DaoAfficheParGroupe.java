@@ -15,8 +15,8 @@ import mathieu.pglp_5_2.personnel.InterfacePersonnels;
 /**
  * Dao pour la classe AfficheParGroupe.
  */
-public class DaoAfficheParGroupe
-implements Dao<AfficheParGroupe>, Serializable {
+public class DaoAfficheParGroupe extends Dao<AfficheParGroupe>
+implements Serializable {
     /**
      * serial number pour la serialization.
      */

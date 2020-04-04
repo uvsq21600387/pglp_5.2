@@ -15,8 +15,8 @@ import mathieu.pglp_5_2.personnel.InterfacePersonnels;
 /**
  * Dao pour la classe CompositePersonnels.
  */
-public class DaoCompositePersonnels
-implements Dao<CompositePersonnels>, Serializable {
+public class DaoCompositePersonnels extends Dao<CompositePersonnels>
+implements Serializable {
     /**
      * serial number pour la serialization.
      */

@@ -20,13 +20,20 @@ public final class Personnel implements InterfacePersonnels, Serializable {
     /**
      * identifiant personnel.
      */
-    private final int id;
+    private int id;
     /**
      * obtenir l'id du personnel.
      * @return l'identifiant
      */
     public int getId() {
         return id;
+    }
+    /**
+     * modifier l'identifiant.
+     * @param newId nouvel identifiant
+     */
+    public void setId(int newId) {
+        id = newId;
     }
     /**
      * nom de la personne.
