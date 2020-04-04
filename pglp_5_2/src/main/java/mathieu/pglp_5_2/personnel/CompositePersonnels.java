@@ -97,6 +97,14 @@ Serializable {
     public final int getId() {
         return id;
     }
+    @SuppressWarnings("unchecked")
+    /**
+     * retourne la liste des InterfacePersonnels.
+     * @return une copie de la liste
+     */
+    public ArrayList<InterfacePersonnels> getList(){
+        return (ArrayList<InterfacePersonnels>) personnels.clone();
+    }
     /**
      * serialize vers le fichier voulu.
      * @param path nom du fichier vers lequel serializer

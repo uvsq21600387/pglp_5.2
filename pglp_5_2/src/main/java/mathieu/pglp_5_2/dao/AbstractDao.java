@@ -1,13 +1,12 @@
 package mathieu.pglp_5_2.dao;
 
 import java.sql.Connection;
-import java.util.Map;
 
 /**
  * Pattern DAO.
  * @param <T> type pour le DAO
  */
-public abstract class Dao<T> {
+public abstract class AbstractDao<T> {
     /**
      * variable de connection à la base de données.
      */
@@ -15,7 +14,7 @@ public abstract class Dao<T> {
     /**
      * constructeur de la classe.
      */
-    public Dao(Connection connection) {
+    public AbstractDao(Connection connection) {
         connect = connection;
     }
     /**

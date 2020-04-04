@@ -1,6 +1,5 @@
 package mathieu.pglp_5_2.dao;
 
-import java.io.Serializable;
 import java.sql.Array;
 import java.sql.Connection;
 import java.sql.Date;
@@ -15,21 +14,21 @@ import mathieu.pglp_5_2.personnel.Personnel;
 /**
  * DAO pour la classe Personnel.
  */
-public class DaoPersonnel extends Dao<Personnel> {
+public class DaoPersonnelJDBC extends AbstractDao<Personnel> {
     /**
      * constructeur de la classe.
      */
-    public DaoPersonnel(Connection connect) {
+    public DaoPersonnelJDBC(Connection connect) {
         super(connect);
     }
     
     @SuppressWarnings("deprecation")
     @Override
-    public Personnel create(Personnel object) {
+    public Personnel create(final Personnel object) {
         try {
             PreparedStatement prepare = connect.prepareStatement(
-                    "INSERT INTO personnel (id,nom,prenom,dateNaissance,numeroTelephone)"
-                    + " VALUES(?, ?, ?, ?, ?)");
+            "INSERT INTO personnel (id,nom,prenom,dateNaissance,numeroTelephone)"
+            + " VALUES(?, ?, ?, ?, ?)");
             prepare.setInt(1, object.getId());
             prepare.setString(2, object.getNom());
             Date date = new Date(object.getDateNaissance().getYear() - 1900,
@@ -47,7 +46,7 @@ public class DaoPersonnel extends Dao<Personnel> {
     
     @SuppressWarnings({ "deprecation", "unchecked" })
     @Override
-    public Personnel find(int id) {
+    public Personnel find(final int id) {
         Personnel p = null;
         LocalDate dateNaissance;
         try {
@@ -92,6 +91,7 @@ public class DaoPersonnel extends Dao<Personnel> {
                         object.getDateNaissance().getDayOfMonth());
                 prepare.setDate(3, date);
                 prepare.setArray(4, (Array) object.getNumeroTelephone());
+                prepare.setInt(5, object.getId());
                 int result = prepare.executeUpdate();
                 assert result == 1;
             } catch (SQLException e) {
@@ -102,7 +102,7 @@ public class DaoPersonnel extends Dao<Personnel> {
     }
 
     @Override
-    public void delete(Personnel object) {
+    public void delete(final Personnel object) {
         try {
             PreparedStatement prepare = connect.prepareStatement(
                     "DELETE FROM personnel WHERE id = ?");

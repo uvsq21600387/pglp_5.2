@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -50,6 +51,14 @@ implements Iterable<InterfacePersonnels>, Serializable {
      */
     public int getId() {
         return id;
+    }
+    @SuppressWarnings("unchecked")
+    /**
+     * retourne la liste des InterfacePersonnels.
+     * @return une copie de la liste
+     */
+    public ArrayDeque<InterfacePersonnels> getList(){
+        return (ArrayDeque<InterfacePersonnels>) file.clone();
     }
     /**
      * affiche sous forme de parcours en largeur.
