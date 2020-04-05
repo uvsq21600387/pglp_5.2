@@ -17,11 +17,15 @@ public class DaoCompositePersonnelsJDBC
 extends AbstractDao<CompositePersonnels> {
     /**
      * constructeur de la classe.
+     * @param connect se connecter
      */
-    public DaoCompositePersonnelsJDBC(Connection connect) {
+    public DaoCompositePersonnelsJDBC(final Connection connect) {
         super(connect);
     }
-    
+    /**
+     * crée un élément dans le dao.
+     * @param object element à ajouter
+     */
     @Override
     public CompositePersonnels create(final CompositePersonnels object) {
         try {
@@ -37,7 +41,10 @@ extends AbstractDao<CompositePersonnels> {
         }
         return object;
     }
-    
+    /**
+     * cherche un element dans le dao.
+     * @param id identifiant de l'objet a chercher
+     */
     @Override
     public CompositePersonnels find(final int id) {
         CompositePersonnels cp = null;
@@ -52,7 +59,7 @@ extends AbstractDao<CompositePersonnels> {
                 @SuppressWarnings("unchecked")
                 ArrayList<InterfacePersonnels> array =
                 (ArrayList<InterfacePersonnels>) result.getArray("composites");
-                for(InterfacePersonnels ip : array) {
+                for (InterfacePersonnels ip : array) {
                     cp.add(ip);
                 }
             }
@@ -67,21 +74,25 @@ extends AbstractDao<CompositePersonnels> {
      */
     @Override
     public CompositePersonnels update(final CompositePersonnels object) {
-        if(this.find(object.getId()) != null) {
+        if (this.find(object.getId()) != null) {
             try {
                 PreparedStatement prepare = connect.prepareStatement(
-                        "UPDATE compositePersonnels SET composite = ? WHERE id = ?");
+                        "UPDATE compositePersonnels"
+                        + " SET composite = ? WHERE id = ?");
                 prepare.setArray(1, (Array) object.getList());
                 prepare.setInt(2, object.getId());
                 int result = prepare.executeUpdate();
                 assert result == 1;
             } catch (SQLException e) {
                 e.printStackTrace();
-            }     
+            }
         }
         return object;
     }
-
+    /**
+     * supprime du dao.
+     * @param object l'objet a supprimer
+     */
     @Override
     public void delete(final CompositePersonnels object) {
         try {

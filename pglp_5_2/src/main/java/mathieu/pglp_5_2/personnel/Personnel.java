@@ -32,7 +32,7 @@ public final class Personnel implements InterfacePersonnels, Serializable {
      * modifier l'identifiant.
      * @param newId nouvel identifiant
      */
-    public void setId(int newId) {
+    public void setId(final int newId) {
         id = newId;
     }
     /**

@@ -13,13 +13,15 @@ public abstract class AbstractDao<T> {
     protected Connection connect;
     /**
      * constructeur de la classe.
+     * @param connection connection a la bdd
      */
-    public AbstractDao(Connection connection) {
+    public AbstractDao(final Connection connection) {
         connect = connection;
     }
     /**
      * ajoute un élément au DAO.
      * @param object l'élément à ajouter
+     * @return la creation
      */
     public abstract T create(T object);
     /**
@@ -31,7 +33,7 @@ public abstract class AbstractDao<T> {
     /**
      * modifie un élément du DAO.
      * @param object l'élément à modifier
-     * @param params les paramètres à modifier
+     * @return la modification
      */
     public abstract T update(T object);
     /**

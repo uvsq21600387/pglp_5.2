@@ -31,7 +31,7 @@ Serializable {
      * modifier l'identifiant.
      * @param newId nouvel identifiant
      */
-    public void setId(int newId) {
+    public void setId(final int newId) {
         id = newId;
     }
     /**
@@ -97,12 +97,12 @@ Serializable {
     public final int getId() {
         return id;
     }
-    @SuppressWarnings("unchecked")
     /**
      * retourne la liste des InterfacePersonnels.
      * @return une copie de la liste
      */
-    public ArrayList<InterfacePersonnels> getList(){
+    @SuppressWarnings("unchecked")
+    public ArrayList<InterfacePersonnels> getList() {
         return (ArrayList<InterfacePersonnels>) personnels.clone();
     }
     /**

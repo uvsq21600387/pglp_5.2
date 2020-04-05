@@ -69,10 +69,10 @@ implements Dao<AfficheParGroupe>, Serializable {
      * @param object l'élément à modifier
      * @param params les paramètres à modifier
      */
-    @SuppressWarnings("unchecked")
     public void update(final AfficheParGroupe object,
             final Map<String, Object> params) {
         if (list.contains(object)) {
+            @SuppressWarnings("unchecked")
             ArrayList<InterfacePersonnels> remplace =
             (ArrayList<InterfacePersonnels>) params.get("file");
             if (params.containsKey("file")) {

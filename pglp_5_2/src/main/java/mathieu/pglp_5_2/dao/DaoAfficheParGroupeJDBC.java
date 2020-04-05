@@ -17,11 +17,15 @@ public class DaoAfficheParGroupeJDBC
 extends AbstractDao<AfficheParGroupe> {
     /**
      * constructeur de la classe.
+     * @param connect se connecter
      */
-    public DaoAfficheParGroupeJDBC(Connection connect) {
+    public DaoAfficheParGroupeJDBC(final Connection connect) {
         super(connect);
     }
-    
+    /**
+     * crée un élément dans le dao.
+     * @param object element à ajouter
+     */
     @Override
     public AfficheParGroupe create(final AfficheParGroupe object) {
         try {
@@ -37,7 +41,10 @@ extends AbstractDao<AfficheParGroupe> {
         }
         return object;
     }
-    
+    /**
+     * cherche un element dans le dao.
+     * @param id identifiant de l'objet a chercher
+     */
     @Override
     public AfficheParGroupe find(final int id) {
         AfficheParGroupe apg = null;
@@ -52,7 +59,7 @@ extends AbstractDao<AfficheParGroupe> {
                 @SuppressWarnings("unchecked")
                 ArrayDeque<InterfacePersonnels> array =
                 (ArrayDeque<InterfacePersonnels>) result.getArray("composites");
-                for(InterfacePersonnels ip : array) {
+                for (InterfacePersonnels ip : array) {
                     apg.add(ip);
                 }
             }
@@ -67,21 +74,25 @@ extends AbstractDao<AfficheParGroupe> {
      */
     @Override
     public AfficheParGroupe update(final AfficheParGroupe object) {
-        if(this.find(object.getId()) != null) {
+        if (this.find(object.getId()) != null) {
             try {
                 PreparedStatement prepare = connect.prepareStatement(
-                        "UPDATE afficheParGroupe SET composite = ? WHERE id = ?");
+                        "UPDATE afficheParGroupe"
+                        + "SET composite = ? WHERE id = ?");
                 prepare.setArray(1, (Array) object.getList());
                 prepare.setInt(2, object.getId());
                 int result = prepare.executeUpdate();
                 assert result == 1;
             } catch (SQLException e) {
                 e.printStackTrace();
-            }     
+            }
         }
         return object;
     }
-
+    /**
+     * supprime du dao.
+     * @param object l'objet a supprimer
+     */
     @Override
     public void delete(final AfficheParGroupe object) {
         try {

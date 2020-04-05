@@ -9,16 +9,17 @@ import mathieu.pglp_5_2.personnel.Personnel;
 /**
  * pattern factory.
  */
-public class DaoFactoryJDBC {
+public class DaoFactoryJDBC extends AbstractDaoFactory {
     /**
-     * Connection à la bdd
+     * Connection à la bdd.
      */
     private Connection connect;
     /**
      * Les classes utilitaires ne doivent pas
      * avoir de constructeur par défaut ou public.
+     * @param connection se connecter
      */
-    public DaoFactoryJDBC(Connection connection) {
+    public DaoFactoryJDBC(final Connection connection) {
         connect = connection;
     }
     /**

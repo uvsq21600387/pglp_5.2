@@ -17,47 +17,57 @@ import mathieu.pglp_5_2.personnel.Personnel;
 public class DaoPersonnelJDBC extends AbstractDao<Personnel> {
     /**
      * constructeur de la classe.
+     * @param connect se connecter
      */
-    public DaoPersonnelJDBC(Connection connect) {
+    public DaoPersonnelJDBC(final Connection connect) {
         super(connect);
     }
-    
+    /**
+     * crée un élément dans le dao.
+     * @param object element à ajouter
+     */
     @SuppressWarnings("deprecation")
     @Override
     public Personnel create(final Personnel object) {
+        final int un = 1, deux = 2, trois = 3, quatre = 4, annee = 1900;
         try {
             PreparedStatement prepare = connect.prepareStatement(
-            "INSERT INTO personnel (id,nom,prenom,dateNaissance,numeroTelephone)"
+            "INSERT INTO personnel"
+            + " (id,nom,prenom,dateNaissance,numeroTelephone)"
             + " VALUES(?, ?, ?, ?, ?)");
-            prepare.setInt(1, object.getId());
-            prepare.setString(2, object.getNom());
-            Date date = new Date(object.getDateNaissance().getYear() - 1900,
-                    object.getDateNaissance().getMonthValue() - 1,
+            prepare.setInt(un, object.getId());
+            prepare.setString(deux, object.getNom());
+            Date date = new Date(object.getDateNaissance().getYear() - annee,
+                    object.getDateNaissance().getMonthValue() - un,
                     object.getDateNaissance().getDayOfMonth());
-            prepare.setDate(3, date);
-            prepare.setArray(4, (Array) object.getNumeroTelephone());
+            prepare.setDate(trois, date);
+            prepare.setArray(quatre, (Array) object.getNumeroTelephone());
             int result = prepare.executeUpdate();
-            assert result == 1;
+            assert result == un;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return object;
     }
-    
+    /**
+     * cherche un element dans le dao.
+     * @param id identifiant de l'objet a chercher
+     */
     @SuppressWarnings({ "deprecation", "unchecked" })
     @Override
     public Personnel find(final int id) {
+        final int un = 1, annee = 1900;
         Personnel p = null;
         LocalDate dateNaissance;
         try {
             PreparedStatement prepare = connect.prepareStatement(
                     "SELECT * FROM personnel WHERE id = ?");
-            prepare.setInt(1, id);
+            prepare.setInt(un, id);
             ResultSet result = prepare.executeQuery();
             if (result.first()) {
                 dateNaissance = LocalDate.of(
-                        result.getDate("dateNaissance").getYear() + 1900,
-                        result.getDate("dateNaissance").getMonth() + 1,
+                        result.getDate("dateNaissance").getYear() + annee,
+                        result.getDate("dateNaissance").getMonth() + un,
                         result.getDate("dateNaissance").getDay());
                 result.getString("nom");
                 p = new Personnel.Builder(
@@ -78,37 +88,44 @@ public class DaoPersonnelJDBC extends AbstractDao<Personnel> {
      */
     @Override
     public Personnel update(final Personnel object) {
-        if(this.find(object.getId()) != null) {
+        final int un = 1, deux = 2, trois = 3,
+                quatre = 4, cinq = 5, annee = 1900;
+        if (this.find(object.getId()) != null) {
             try {
                 PreparedStatement prepare = connect.prepareStatement(
-                        "UPDATE personnel SET nom = ?, prenom = ?, dateNaissance = ?,"
-                        + " numeroTelephone = ? WHERE id = ?");
-                prepare.setString(1, object.getNom());
-                prepare.setString(2, object.getPrenom());
+                "UPDATE personnel SET nom = ?, prenom = ?, dateNaissance = ?,"
+                + " numeroTelephone = ? WHERE id = ?");
+                prepare.setString(un, object.getNom());
+                prepare.setString(deux, object.getPrenom());
                 @SuppressWarnings("deprecation")
-                Date date = new Date(object.getDateNaissance().getYear() - 1900,
+                Date date = new Date(
+                        object.getDateNaissance().getYear() - annee,
                         object.getDateNaissance().getMonthValue() - 1,
                         object.getDateNaissance().getDayOfMonth());
-                prepare.setDate(3, date);
-                prepare.setArray(4, (Array) object.getNumeroTelephone());
-                prepare.setInt(5, object.getId());
+                prepare.setDate(trois, date);
+                prepare.setArray(quatre, (Array) object.getNumeroTelephone());
+                prepare.setInt(cinq, object.getId());
                 int result = prepare.executeUpdate();
-                assert result == 1;
+                assert result == un;
             } catch (SQLException e) {
                 e.printStackTrace();
-            }     
+            }
         }
         return object;
     }
-
+    /**
+     * supprime du dao.
+     * @param object l'objet a supprimer
+     */
     @Override
     public void delete(final Personnel object) {
+        final int un = 1;
         try {
             PreparedStatement prepare = connect.prepareStatement(
                     "DELETE FROM personnel WHERE id = ?");
-            prepare.setInt(1, object.getId());
+            prepare.setInt(un, object.getId());
             int result = prepare.executeUpdate();
-            assert result == 1;
+            assert result == un;
         } catch (SQLException e) {
             e.printStackTrace();
         }

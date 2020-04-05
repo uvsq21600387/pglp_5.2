@@ -7,7 +7,7 @@ import mathieu.pglp_5_2.personnel.Personnel;
 /**
  * pattern factory.
  */
-public final class DaoFactory {
+public final class DaoFactory extends AbstractDaoFactory {
     /**
      * fabrique Dao pour Personnel.
      * @param deserialize charger une sauvegarde
