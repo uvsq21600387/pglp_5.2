@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import mathieu.pglp_5_2.personnel.AfficheParGroupe;
 import mathieu.pglp_5_2.personnel.CompositePersonnels;
 import mathieu.pglp_5_2.personnel.Personnel;
 
@@ -23,12 +22,6 @@ public class DaoFactoryTest {
     @Test
     public void testDaoCompositePersonnels() {
         Dao<CompositePersonnels> dao = DaoFactory.getDaoCompositePersonnels(null);
-        assertTrue(dao.getAll().isEmpty());
-    }
-    
-    @Test
-    public void testDaoAfficheParGroupe() {
-        Dao<AfficheParGroupe> dao = DaoFactory.getDaoAfficheParGroupe(null);
         assertTrue(dao.getAll().isEmpty());
     }
     
@@ -60,21 +53,6 @@ public class DaoFactoryTest {
     }
     
     @Test
-    public void testDaoAfficheParGroupeDeserialize() {
-        DaoAfficheParGroupe dapg = (DaoAfficheParGroupe) DaoFactory.getDaoAfficheParGroupe(null);
-        AfficheParGroupe apg = new AfficheParGroupe();
-        CompositePersonnels c = new CompositePersonnels();
-        apg.parcoursLargeur(c);
-        dapg.add(apg);
-        
-        dapg.serialize("dapg.ser");
-        DaoAfficheParGroupe dapg2 = (DaoAfficheParGroupe) DaoFactory.getDaoAfficheParGroupe("dapg.ser");
-        File f = new File("dapg.ser");
-        f.delete();
-        assertTrue(dapg.getAll().toString().equals(dapg2.getAll().toString()));
-    }
-    
-    @Test
     public void testDaoPersonnelEchec() {
         assertNull(DaoFactory.getDaoPersonnel("file"));
     }
@@ -82,10 +60,5 @@ public class DaoFactoryTest {
     @Test
     public void testDaoCompositePersonnelsEchec() {
         assertNull(DaoFactory.getDaoCompositePersonnels("file"));
-    }
-    
-    @Test
-    public void testDaoAfficheParGroupeEchec() {
-        assertNull(DaoFactory.getDaoAfficheParGroupe("file"));
     }
 }

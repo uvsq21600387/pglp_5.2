@@ -2,7 +2,6 @@ package mathieu.pglp_5_2.dao;
 
 import java.sql.Connection;
 
-import mathieu.pglp_5_2.personnel.AfficheParGroupe;
 import mathieu.pglp_5_2.personnel.CompositePersonnels;
 import mathieu.pglp_5_2.personnel.Personnel;
 
@@ -36,13 +35,5 @@ public class DaoFactoryJDBC extends AbstractDaoFactory {
     public AbstractDao<CompositePersonnels>
     getDaoCompositePersonnels() {
         return new DaoCompositePersonnelsJDBC(connect);
-    }
-    /**
-     * fabrique Dao pour AfficheParGroupe.
-     * @return un Dao pour la classe AfficheParGroupe
-     */
-    public AbstractDao<AfficheParGroupe>
-    getDaoAfficheParGroupe() {
-        return new DaoAfficheParGroupeJDBC(connect);
     }
 }

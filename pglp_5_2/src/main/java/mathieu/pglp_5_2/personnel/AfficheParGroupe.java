@@ -55,7 +55,6 @@ implements Iterable<InterfacePersonnels>, Serializable {
      * retourne la liste des InterfacePersonnels.
      * @return une copie de la liste
      */
-    @SuppressWarnings("unchecked")
     public ArrayDeque<InterfacePersonnels> getList() {
         return (ArrayDeque<InterfacePersonnels>) file.clone();
     }
