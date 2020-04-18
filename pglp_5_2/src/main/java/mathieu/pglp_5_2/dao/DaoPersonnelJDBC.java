@@ -123,11 +123,11 @@ public class DaoPersonnelJDBC extends AbstractDao<Personnel> {
                     object.getDateNaissance().getMonthValue() - un,
                     object.getDateNaissance().getDayOfMonth());
             prepare.setDate(quatre, date);
+            int result = prepare.executeUpdate();
+            assert result == un;
             for (String num : object.getNumeroTelephone()) {
                 createNumeroTelephone(num, object.getId());
             }
-            int result = prepare.executeUpdate();
-            assert result == un;
         } catch (SQLException e) {
             e.printStackTrace();
             this.delete(object);

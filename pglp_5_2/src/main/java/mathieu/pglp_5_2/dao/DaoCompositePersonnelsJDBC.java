@@ -151,6 +151,8 @@ extends AbstractDao<CompositePersonnels> {
                     "INSERT INTO compositePersonnels (id)"
                     + " VALUES(?)");
             prepare.setInt(1, object.getId());
+            int result = prepare.executeUpdate();
+            assert result == 1;
             for (InterfacePersonnels ip : object.getList()) {
                 if (ip.getClass() == CompositePersonnels.class) {
                     createComposantComposite(object.getId(), ip.getId());
@@ -158,8 +160,6 @@ extends AbstractDao<CompositePersonnels> {
                     createComposantPersonnel(object.getId(), ip.getId());
                 }
             }
-            int result = prepare.executeUpdate();
-            assert result == 1;
         } catch (SQLException e) {
             e.printStackTrace();
             this.delete(object);
