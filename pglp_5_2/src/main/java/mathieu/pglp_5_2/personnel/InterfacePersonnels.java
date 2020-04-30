@@ -14,7 +14,7 @@ public interface InterfacePersonnels {
      */
     String toString();
     /**
-     * récupérer l'identifiant
+     * récupérer l'identifiant.
      * @return son identifiant
      */
     int getId();

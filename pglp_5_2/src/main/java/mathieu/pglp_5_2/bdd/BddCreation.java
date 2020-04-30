@@ -5,13 +5,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * classe pour créer la base de donnée.
+ */
 public abstract class BddCreation {
     /**
-     * créer la base de donnée
-     * @throws SQLException 
+     * créer la base de donnée.
+     * @throws Exception erreur de création
      */
     public static void resetDataBase() throws Exception {
-        Connection connect = DriverManager.getConnection("jdbc:derby:compositePattern;create=false");
+        Connection connect = DriverManager.getConnection(
+                "jdbc:derby:compositePattern;create=false");
         BddCreation.delTables(connect);
         BddCreation.initTablePersonnel(connect);
         BddCreation.initTableNumeroTelephone(connect);
@@ -19,12 +23,19 @@ public abstract class BddCreation {
         initTableRelationCC(connect);
         initTableRelationCP(connect);
     }
-    
+    /**
+     * créer la bdd.
+     * @throws SQLException erreur de création
+     */
     public static void createDataBase() throws SQLException {
-        DriverManager.getConnection("jdbc:derby:compositePattern;create=true");
+        DriverManager.getConnection(
+                "jdbc:derby:compositePattern;create=true");
     }
-    
-    private static void delTables(Connection connect) {
+    /**
+     * supprime les tables.
+     * @param connect connection a la bdd
+     */
+    private static void delTables(final Connection connect) {
         Statement stat = null;
         try {
             stat = connect.createStatement();
@@ -52,8 +63,13 @@ public abstract class BddCreation {
         } catch (SQLException e) {
         }
     }
-    
-    private static void initTablePersonnel(Connection connect) throws SQLException {
+    /**
+     * créer la table personnel.
+     * @param connect connexion a la bdd
+     * @throws SQLException erreur sql
+     */
+    private static void initTablePersonnel(final Connection connect)
+            throws SQLException {
         String table = "create table personnel ("
                 + "id int primary key,"
                 + "nom varchar(30),"
@@ -63,44 +79,66 @@ public abstract class BddCreation {
         Statement stat = connect.createStatement();
         stat.execute(table);
     }
-    
-    private static void initTableNumeroTelephone(Connection connect) throws SQLException {
+    /**
+     * créer la table numeroTelephone.
+     * @param connect connexion a la bdd
+     * @throws SQLException erreur sql
+     */
+    private static void initTableNumeroTelephone(final Connection connect)
+            throws SQLException {
         String table = "create table numeroTelephone ("
                 + "idPersonnel int,"
-                + "numero varchar(30),"
-                + "primary key (idPersonnel,numero),"
+                + "numero varchar(30) primary key,"
                 + "foreign key (idPersonnel) references personnel (id)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);
     }
-    
-    private static void initTableCompositePersonnels(Connection connect) throws SQLException {
+    /**
+     * créer la table CompositePersonnels.
+     * @param connect connexion a la bdd
+     * @throws SQLException erreur sql
+     */
+    private static void initTableCompositePersonnels(final Connection connect)
+            throws SQLException {
         String table = "create table compositePersonnels ("
                 + "id int primary key"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);
     }
-    
-    private static void initTableRelationCC(Connection connect) throws SQLException {
+    /**
+     * créer la table de composition entre composite et composite.
+     * @param connect connexion a la bdd
+     * @throws SQLException erreur sql
+     */
+    private static void initTableRelationCC(final Connection connect)
+            throws SQLException {
         String table = "create table composantComposite ("
                 + "idComposite int,"
                 + "idComposant int,"
                 + "primary key (idComposite, idComposant),"
-                + "foreign key (idComposite) references compositePersonnels (id),"
-                + "foreign key (idComposant) references compositePersonnels (id)"
+                + "foreign key (idComposite) references "
+                + "compositePersonnels (id),"
+                + "foreign key (idComposant) references "
+                + "compositePersonnels (id)"
                 + ")";
         Statement stat = connect.createStatement();
         stat.execute(table);
     }
-    
-    private static void initTableRelationCP(Connection connect) throws SQLException {
+    /**
+     * créer la table de composition entre composite et personnel.
+     * @param connect connexion a la bdd
+     * @throws SQLException erreur sql
+     */
+    private static void initTableRelationCP(final Connection connect)
+            throws SQLException {
         String table = "create table composantPersonnel ("
                 + "idComposite int,"
                 + "idPersonnel int,"
                 + "primary key (idComposite, idPersonnel),"
-                + "foreign key (idComposite) references compositePersonnels (id),"
+                + "foreign key (idComposite) references "
+                + "compositePersonnels (id),"
                 + "foreign key (idPersonnel) references personnel (id)"
                 + ")";
         Statement stat = connect.createStatement();

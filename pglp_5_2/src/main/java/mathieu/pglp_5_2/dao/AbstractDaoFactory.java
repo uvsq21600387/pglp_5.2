@@ -28,7 +28,8 @@ public abstract class AbstractDaoFactory {
     public static Object getFactory(final DaoType t) {
         Connection connect = null;
         try {
-            connect = DriverManager.getConnection("jdbc:derby:compositePattern;create=false");
+            connect = DriverManager.getConnection(
+                    "jdbc:derby:compositePattern;create=false");
         } catch (SQLException e) {
             e.printStackTrace();
         }

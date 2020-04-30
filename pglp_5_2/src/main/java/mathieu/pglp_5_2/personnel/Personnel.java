@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * classe représentant un personnel
@@ -122,6 +123,7 @@ public final class Personnel implements InterfacePersonnels, Serializable {
             this.nom = nomP;
             this.prenom = prenomP;
             this.dateNaissance = dateNaissanceP;
+            Collections.sort(numeroTelephoneP);
             this.numeroTelephone = numeroTelephoneP;
             this.id = idNext++;
         }

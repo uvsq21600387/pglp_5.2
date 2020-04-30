@@ -12,7 +12,7 @@ public class DaoFactoryJDBC extends AbstractDaoFactory {
     /**
      * Connection à la bdd.
      */
-    private Connection connect;
+    private static Connection connect;
     /**
      * Les classes utilitaires ne doivent pas
      * avoir de constructeur par défaut ou public.
@@ -25,14 +25,14 @@ public class DaoFactoryJDBC extends AbstractDaoFactory {
      * fabrique Dao pour Personnel.
      * @return un Dao pour la classe Personnel
      */
-    public AbstractDao<Personnel> getDaoPersonnel() {
+    public static AbstractDao<Personnel> getDaoPersonnel() {
         return new DaoPersonnelJDBC(connect);
     }
     /**
      * fabrique Dao pour CompositePersonnel.
      * @return un Dao pour la classe CompositePersonnels
      */
-    public AbstractDao<CompositePersonnels>
+    public static AbstractDao<CompositePersonnels>
     getDaoCompositePersonnels() {
         return new DaoCompositePersonnelsJDBC(connect);
     }

@@ -80,7 +80,7 @@ Serializable {
      * @return lui-même
      */
     public CompositePersonnels remove(final InterfacePersonnels ip) {
-        System.out.println(personnels.remove(ip));
+        personnels.remove(ip);
         return this;
     }
     /**

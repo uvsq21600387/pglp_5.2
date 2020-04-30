@@ -29,67 +29,91 @@ extends AbstractDao<CompositePersonnels> {
      * @param idComposant le composant
      * @throws SQLException échec de la création
      */
-    private void createComposantComposite(final int idComposite, final int idComposant) throws SQLException {
-        PreparedStatement prepare = connect.prepareStatement(
-                "INSERT INTO composantComposite (idComposite,idComposant)"
-                + " VALUES(?, ?)");
-        prepare.setInt(1, idComposite);
-        prepare.setInt(2, idComposant);
-        int result = prepare.executeUpdate();
-        assert result == 1;
+    private void createComposantComposite(
+            final int idComposite, final int idComposant) {
+        PreparedStatement prepare;
+        try {
+            prepare = connect.prepareStatement(
+                    "INSERT INTO composantComposite"
+                    + " (idComposite,idComposant)"
+                    + " VALUES(?, ?)");
+            prepare.setInt(1, idComposite);
+            prepare.setInt(2, idComposant);
+            prepare.executeUpdate();
+        } catch (SQLException e) {
+        }
     }
     /**
-     * crée la relation de composition entre un CompositePersonnels et un Personnel.
+     * crée la relation de composition
+     * entre un CompositePersonnels et un Personnel.
      * @param idComposite le composé
-     * @param idComposant le composant
+     * @param idPersonnel le composant
      * @throws SQLException échec de la création
      */
-    public void createComposantPersonnel(final int idComposite, final int idPersonnel) throws SQLException {
-        PreparedStatement prepare = connect.prepareStatement(
-                "INSERT INTO composantPersonnel (idComposite,idPersonnel)"
-                + " VALUES(?, ?)");
-        prepare.setInt(1, idComposite);
-        prepare.setInt(2, idPersonnel);
-        int result = prepare.executeUpdate();
-        assert result == 1;
+    public void createComposantPersonnel(
+            final int idComposite, final int idPersonnel) {
+        try {
+            PreparedStatement prepare = connect.prepareStatement(
+                    "INSERT INTO composantPersonnel"
+                    + " (idComposite,idPersonnel)"
+                    + " VALUES(?, ?)");
+            prepare.setInt(1, idComposite);
+            prepare.setInt(2, idPersonnel);
+            prepare.executeUpdate();
+        } catch (SQLException e) {
+        }
     }
     /**
      * cherche les composants du composite de type CompositePersonnels.
      * @param idComposite le composite en question
-     * @return une liste de ses composants 
+     * @return une liste de ses composants
      * @throws SQLException échec de la recherche
      */
-    private ArrayList<InterfacePersonnels> findComposantComposite(final int idComposite) throws SQLException {
+    private ArrayList<InterfacePersonnels> findComposantComposite(
+            final int idComposite) throws SQLException {
         ArrayList<InterfacePersonnels> array =
-                new ArrayList<InterfacePersonnels> ();
+                new ArrayList<InterfacePersonnels>();
         PreparedStatement prepare = connect.prepareStatement(
-                "SELECT idComposant FROM composantComposite WHERE idComposite = ?");
+                "SELECT idComposant FROM composantComposite"
+                + " WHERE idComposite = ?");
         prepare.setInt(1, idComposite);
         ResultSet result = prepare.executeQuery();
         while (result.next()) {
-            CompositePersonnels finder = this.find(result.getInt("idComposant"));
-            if(finder != null) array.add(finder);
+            CompositePersonnels finder = this.find(
+                    result.getInt("idComposant"));
+            if (finder != null) {
+                array.add(finder);
+            }
         }
         return array;
     }
     /**
      * cherche les composants du composite de type Personnel.
      * @param idComposite le composite en question
-     * @return une liste de ses composants 
+     * @return une liste de ses composants
      * @throws SQLException échec de la recherche
      */
-    private ArrayList<InterfacePersonnels> findComposantPersonnel(final int idComposite) throws SQLException {
+    @SuppressWarnings("static-access")
+    private ArrayList<InterfacePersonnels> findComposantPersonnel(
+            final int idComposite) throws SQLException {
         ArrayList<InterfacePersonnels> array =
-                new ArrayList<InterfacePersonnels> ();
-        DaoFactoryJDBC factorytmp = (DaoFactoryJDBC) AbstractDaoFactory.getFactory(DaoType.JDBC);
-        DaoPersonnelJDBC daoPersonnels = (DaoPersonnelJDBC) factorytmp.getDaoPersonnel();
+                new ArrayList<InterfacePersonnels>();
+        DaoFactoryJDBC factorytmp =
+                (DaoFactoryJDBC) AbstractDaoFactory
+                .getFactory(DaoType.JDBC);
+        DaoPersonnelJDBC daoPersonnels =
+                (DaoPersonnelJDBC) factorytmp.getDaoPersonnel();
         PreparedStatement prepare = connect.prepareStatement(
-                "SELECT idPersonnel FROM composantPersonnel WHERE idComposite = ?");
+                "SELECT idPersonnel FROM composantPersonnel"
+                + " WHERE idComposite = ?");
         prepare.setInt(1, idComposite);
         ResultSet result = prepare.executeQuery();
         while (result.next()) {
-            Personnel finder = daoPersonnels.find(result.getInt("idPersonnel"));
-            if(finder != null) array.add(finder);
+            Personnel finder = daoPersonnels.find(
+                    result.getInt("idPersonnel"));
+            if (finder != null) {
+                array.add(finder);
+            }
         }
         return array;
     }
@@ -99,7 +123,8 @@ extends AbstractDao<CompositePersonnels> {
      * @return une liste de ses composants
      * @throws SQLException échec de la recherche
      */
-    private ArrayList<InterfacePersonnels> findComposant(final int idComposite) throws SQLException {
+    private ArrayList<InterfacePersonnels> findComposant(
+            final int idComposite) throws SQLException {
         ArrayList<InterfacePersonnels> arrayC =
                 findComposantComposite(idComposite);
         ArrayList<InterfacePersonnels> arrayP =
@@ -114,7 +139,8 @@ extends AbstractDao<CompositePersonnels> {
      * @param idComposite le composite composé d'éléments
      * @throws SQLException échec de suppression
      */
-    private void deleteComposantComposite(final int idComposite) throws SQLException {
+    private void deleteComposantComposite(final int idComposite)
+            throws SQLException {
         PreparedStatement prepare = connect.prepareStatement(
                 "DELETE FROM composantComposite WHERE idComposite = ?");
         prepare.setInt(1, idComposite);
@@ -125,7 +151,8 @@ extends AbstractDao<CompositePersonnels> {
      * @param idComposite le composite composé d'éléments
      * @throws SQLException échec de suppression
      */
-    private void deleteComposantPersonnel(final int idComposite) throws SQLException {
+    private void deleteComposantPersonnel(final int idComposite)
+            throws SQLException {
         PreparedStatement prepare = connect.prepareStatement(
                 "DELETE FROM composantPersonnel WHERE idComposite = ?");
         prepare.setInt(1, idComposite);
@@ -136,7 +163,8 @@ extends AbstractDao<CompositePersonnels> {
      * @param idComposite le composite composé d'éléments
      * @throws SQLException échec de suppression
      */
-    private void deleteComposant(final int idComposite) throws SQLException {
+    private void deleteComposant(final int idComposite)
+            throws SQLException {
         deleteComposantPersonnel(idComposite);
         deleteComposantComposite(idComposite);
     }
@@ -144,6 +172,7 @@ extends AbstractDao<CompositePersonnels> {
      * crée un élément dans la bdd.
      * @param object element à ajouter
      */
+    @SuppressWarnings("static-access")
     @Override
     public CompositePersonnels create(final CompositePersonnels object) {
         try {
@@ -151,18 +180,23 @@ extends AbstractDao<CompositePersonnels> {
                     "INSERT INTO compositePersonnels (id)"
                     + " VALUES(?)");
             prepare.setInt(1, object.getId());
-            int result = prepare.executeUpdate();
-            assert result == 1;
-            for (InterfacePersonnels ip : object.getList()) {
-                if (ip.getClass() == CompositePersonnels.class) {
-                    createComposantComposite(object.getId(), ip.getId());
-                } else {
-                    createComposantPersonnel(object.getId(), ip.getId());
-                }
-            }
+            prepare.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-            this.delete(object);
+        }
+        for (InterfacePersonnels ip : object.getList()) {
+            if (ip.getClass() == CompositePersonnels.class) {
+                this.create((CompositePersonnels) ip);
+                createComposantComposite(object.getId(), ip.getId());
+            } else {
+                DaoFactoryJDBC factory =
+                        (DaoFactoryJDBC) AbstractDaoFactory
+                        .getFactory(DaoType.JDBC);
+                DaoPersonnelJDBC daop =
+                        (DaoPersonnelJDBC) factory.getDaoPersonnel();
+                daop.create((Personnel) ip);
+                createComposantPersonnel(object.getId(), ip.getId());
+            }
         }
         return object;
     }
@@ -178,7 +212,7 @@ extends AbstractDao<CompositePersonnels> {
                     "SELECT * FROM compositePersonnels WHERE id = ?");
             prepare.setInt(1, id);
             ResultSet result = prepare.executeQuery();
-            if (result.first()) {
+            if (result.next()) {
                 cp = new CompositePersonnels();
                 cp.setId(id);
                 ArrayList<InterfacePersonnels> array =
@@ -189,6 +223,7 @@ extends AbstractDao<CompositePersonnels> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
         return cp;
     }
@@ -200,21 +235,14 @@ extends AbstractDao<CompositePersonnels> {
     public CompositePersonnels update(final CompositePersonnels object) {
         CompositePersonnels before = this.find(object.getId());
         if (before != null) {
-            try {
-                this.deleteComposant(object.getId());
-                for (InterfacePersonnels ip : object.getList()) {
-                    if (ip.getClass() == CompositePersonnels.class) {
-                        createComposantComposite(object.getId(), ip.getId());
-                    } else {
-                        createComposantPersonnel(object.getId(), ip.getId());
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                this.delete(object);
+            this.delete(before);
+            this.create(object);
+            if (this.find(object.getId()) == null) {
                 this.create(before);
                 return before;
             }
+        } else {
+            return null;
         }
         return object;
     }
@@ -229,8 +257,7 @@ extends AbstractDao<CompositePersonnels> {
             PreparedStatement prepare = connect.prepareStatement(
                     "DELETE FROM compositePersonnels WHERE id = ?");
             prepare.setInt(1, object.getId());
-            int result = prepare.executeUpdate();
-            assert result == 1;
+            prepare.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
